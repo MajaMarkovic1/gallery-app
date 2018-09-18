@@ -14,10 +14,18 @@
                         </router-link>
                     </li>
                     <li>
-                        <a class="nav-link" href="#" v-if="isAuthenticated" @click="logout">Logout</a>
+                        <a class="nav-link" href="#" v-if="isAuthenticated">My Galleries</a>                        
+                    </li>
+                    <li>
+                        <a class="nav-link" href="#" v-if="isAuthenticated">Create New Gallery</a>                        
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Register</a>
+                        <router-link class="nav-link" to="/register" v-if="!isAuthenticated">
+                            Register
+                        </router-link>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="#" v-if="isAuthenticated" @click="logout">Logout</a>
                     </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0">

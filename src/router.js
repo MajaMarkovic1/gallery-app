@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Login from "./components/Login";
 import AllGalleries from "./components/AllGalleries";
+import Register from './components/Register'
 
 Vue.use(Router);
 
@@ -12,5 +13,7 @@ export default new Router({
       { path: '/', redirect: 'all-galleries' },
       { path: '/all-galleries', name: 'all-galleries', component: AllGalleries },      
       { path: '/login', name: 'login', component: Login },
+      { path: '/register', name: 'register', component: Register },
+      
   ]
 });

@@ -8,6 +8,8 @@ Vue.config.productionTip = false;
 router.beforeEach((to, from, next) => {
   if (to.name === 'login' && authService.isAuthenticated()){
     next({path: 'all-galleries'})
+  } else if (to.name === 'register' && authService.isAuthenticated()){
+    next({path: 'all-galleries'})    
   } else {
     next()
   }
