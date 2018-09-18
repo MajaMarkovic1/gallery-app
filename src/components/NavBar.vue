@@ -9,9 +9,12 @@
                         <span class="sr-only">(current)</span></router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link class="nav-link" to="/login">
+                        <router-link class="nav-link" to="/login" v-if="!isAuthenticated">
                             Login
                         </router-link>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="#" v-if="isAuthenticated" @click="logout">Logout</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Register</a>
@@ -27,10 +30,20 @@
 </template>
 
 <script>
+import { authService } from '../services/Auth'
+
 export default {
     props: {
         isAuthenticated: Boolean,
     },
+
+    methods: {
+        logout(){
+            authService.logout()
+            this.$emit('userAuthenticated', false)
+            this.$router.push('/login')
+        }
+    }
 }
 </script>
 

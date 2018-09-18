@@ -28,5 +28,13 @@ export default {
 }
 </script>
 
+<style>
+
+.container {
+  margin-top: 1rem;
+}
+</style>
+
+
 
 

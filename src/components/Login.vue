@@ -39,7 +39,8 @@ export default {
     data(){
         return {
             email: '',
-            password: ''
+            password: '',
+           
         }
     },
 
@@ -50,7 +51,7 @@ export default {
                     this.$emit('userAuthenticated', true)
                     this.$router.push('/all-galleries')
                 })
-                .catch((err) => { console.log(err) })
+                .catch(err => console.log(err) )
         }
     }
     
