@@ -1,37 +1,32 @@
 <template>
   <div id="app">
-    <NavBar />
-    <router-view />
+    <NavBar :isAuthenticated="isAuthenticated" @userAuthenticated="toggleAuthenticated" />
+    <router-view @userAuthenticated="toggleAuthenticated" class="container" />
   </div>
 </template>
 
 <script>
 import NavBar from './components/NavBar'
+import { authService } from './services/Auth';
+
 export default {
   components: {
     NavBar
+  },
+
+  data(){
+    return {
+      isAuthenticated: authService.isAuthenticated()
+    }
+  },
+
+   methods: {
+    toggleAuthenticated(value){
+      this.isAuthenticated = value
+    }
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-}
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
 
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
