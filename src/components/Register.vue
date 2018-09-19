@@ -11,7 +11,10 @@
                     type="text"
                     class="form-control here"
                     v-model="user.first_name">
-                </div>                     
+                </div> 
+                <div class="input-group">
+                    <span class="alert alert-warning" v-if="errors.first_name">{{ errors.first_name[0] }}</span>                        
+                </div>                    
             </div>
         </div>
          <div class="form-group row">
@@ -24,7 +27,10 @@
                     type="text"
                     class="form-control here"
                     v-model="user.last_name">
-                </div>                     
+                </div>  
+                <div class="input-group">
+                    <span class="alert alert-warning" v-if="errors.last_name">{{ errors.last_name[0] }}</span>                        
+                </div>                   
             </div>
         </div>
         <div class="form-group row">
@@ -38,6 +44,9 @@
                     class="form-control here"
                     v-model="user.email">
                 </div>
+                <div class="input-group">
+                    <span class="alert alert-warning" v-if="errors.email">{{ errors.email[0] }}</span>                        
+                </div>
             </div>
         </div>
         <div class="form-group row">
@@ -50,7 +59,10 @@
                     type="password"
                     class="form-control here"
                     v-model="user.password">
-                </div>                 
+                </div> 
+                <div class="input-group">
+                    <span class="alert alert-warning" v-if="errors.password">{{ errors.password[0] }}</span>                        
+                </div>                
             </div>
         </div>
           <div class="form-group row">
@@ -67,6 +79,7 @@
             </div>
         </div>
          <div class="form-group row">
+            <div class="col-4 col-form-label"></div>
             <div class="col-8">
               <div class="form-check">
                 <label class="form-check-label">
@@ -80,7 +93,10 @@
                   Accept terms and conditions
                 </label>
               </div>
-            </div>
+              <div class="input-group">
+                    <span class="alert alert-warning" v-if="errors.accept_terms_and_conditions">{{ errors.accept_terms_and_conditions[0] }}</span>                        
+                </div>
+            </div> 
         </div>
         <button name="submit" class="btn btn-primary" type="submit">Register</button>
       </form>
@@ -92,7 +108,8 @@ import { authService } from '../services/Auth'
 export default {
   data(){
     return {
-      user: {}
+      user: {},
+      errors: []
     }
   },
 
@@ -105,10 +122,8 @@ export default {
                     this.$emit('userAuthenticated', true)
                     this.$router.push('/all-galleries')
                 })
-                .catch(err => console.log(err) )
           })
-        .catch(err => console.log(err))
-
+        .catch(err => console.log( this.errors = err.response.data.errors ) )
     }
   }
   

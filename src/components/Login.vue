@@ -25,6 +25,9 @@
                             class="form-control here"
                             v-model="password">
                     </div>
+                    <div class="input-group">
+                        <span class="alert alert-warning" v-if="error">{{ error }}</span>                        
+                    </div>
                 </div>
             </div>
             <button name="submit" class="btn btn-primary" type="submit">Login</button>
@@ -40,7 +43,7 @@ export default {
         return {
             email: '',
             password: '',
-           
+            error: ''
         }
     },
 
@@ -51,7 +54,7 @@ export default {
                     this.$emit('userAuthenticated', true)
                     this.$router.push('/all-galleries')
                 })
-                .catch(err => console.log(err) )
+                .catch(err => console.log(this.error = err.response.data.error))
         }
     }
     
