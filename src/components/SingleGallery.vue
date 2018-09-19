@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container">
         <h1>{{ gallery.title }}</h1>
         <div v-if="gallery.user" style="margin-top: 1rem;">
             <em>Author:</em> 
@@ -47,6 +47,7 @@ div {
 #user {
     color: grey;
 }
+
 </style>
 
 

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <NavBar :isAuthenticated="isAuthenticated" @userAuthenticated="toggleAuthenticated" />
-    <router-view @userAuthenticated="toggleAuthenticated" class="container" />
+    <router-view @userAuthenticated="toggleAuthenticated" />
   </div>
 </template>
 
@@ -27,13 +27,6 @@ export default {
   }
 }
 </script>
-
-<style>
-
-.container {
-  margin-top: 1rem;
-}
-</style>
 
 
 

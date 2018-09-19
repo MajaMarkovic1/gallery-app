@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <form @submit.prevent="onSubmit">
         <div class="form-group row">
             <label for="first_name" class="col-4 col-form-label">First name</label>
@@ -129,4 +129,13 @@ export default {
   
 }
 </script>
+
+<style>
+.form-check-label{
+    float: left;
+}
+</style>
+
+
+
 

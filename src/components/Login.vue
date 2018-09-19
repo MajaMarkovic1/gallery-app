@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container">
         <form @submit.prevent="onSubmit">
             <div class="form-group row">
                 <label for="email" class="col-4 col-form-label">Email</label>
@@ -60,6 +60,17 @@ export default {
     
 }
 </script>
+
+<style>
+
+label{
+    text-align: left;
+}
+
+button{
+    float: left;
+}
+</style>
 
 
 

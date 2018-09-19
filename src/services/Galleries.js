@@ -17,6 +17,10 @@ export default class Galleries {
     getAuthor(id){
         return axios.get(`authors/${id}`)
     }
+
+    getLoggedUser(){
+        return axios.get('my-galleries');
+    }
 }
 
 export const galleries = new Galleries()

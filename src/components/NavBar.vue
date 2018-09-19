@@ -14,7 +14,9 @@
                         </router-link>
                     </li>
                     <li>
-                        <a class="nav-link" href="#" v-if="isAuthenticated">My Galleries</a>                        
+                        <router-link class="nav-link" to="/my-galleries" v-if="isAuthenticated">
+                            My Galleries
+                        </router-link>                        
                     </li>
                     <li>
                         <a class="nav-link" href="#" v-if="isAuthenticated">Create New Gallery</a>                        
