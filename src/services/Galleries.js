@@ -7,7 +7,11 @@ export default class Galleries {
     }
 
     getAll(){
-        return axios.get('galleries');
+        return axios.get('galleries')
+    }
+
+    get(id){
+        return axios.get(`galleries/${id}`)
     }
 }
 
