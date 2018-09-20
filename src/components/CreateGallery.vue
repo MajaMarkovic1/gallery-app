@@ -12,6 +12,9 @@
                             class="form-control here"
                             v-model="gallery.title">
                     </div>
+                    <div class="input-group">
+                        <span class="alert alert-warning" v-if="errors.title">{{ errors.title[0] }}</span>                        
+                    </div> 
                 </div>
             </div>
             <div class="form-group row">
@@ -27,8 +30,8 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group row">
-                <label for="images" class="col-4 col-form-label">Images</label>
+            <div class="form-group row" v-for="(num, index) in number" :key="index">
+                <label for="images" class="col-4 col-form-label">Image</label>
                 <div class="col-8">
                     <div class="input-group">
                         <input
@@ -36,29 +39,31 @@
                             name="image_url"
                             type="text"
                             class="form-control here"
-                            v-model="gallery.images.image_url">
-                        <button class="btn btn-light" @click="addUrl(gallery.images.image_url)" style="margin-left: 1rem;">
-                            <i class="far fa-plus-square"></i>
-                        </button>
+                            v-model="gallery.images[index]">
+                            <button class="btn btn-light" @click="deleteUrl(gallery.images[index])">
+                                <i class="far fa-trash-alt"></i>
+                            </button> 
                     </div>
+                     
+                    <button class="btn btn-light" @click="moveUp">
+                        <i class="fas fa-arrow-up"></i>                  
+                    </button>
+                    <button class="btn btn-light">
+                        <i class="fas fa-arrow-down"></i>
+                    </button>
+                    <div class="input-group">
+                        <span class="alert alert-warning" v-if="errors.images">{{ errors.images[0] }}</span>                        
+                    </div> 
                 </div>
             </div>
-              <!-- <div class="form-group row">
+            <div class="form-group row">
+                <div class="col-4 col-form"></div>
                 <div class="col-8">
-                    <div class="input-group">
-                        <input
-                            id="image"
-                            name="image"
-                            type="text"
-                            class="form-control here"
-                            v-model="gallery.images.image_url"
-                            >
-                        <button class="btn btn-light" @click="addUrl(gallery.images.image_url)" style="margin-left: 1rem;">
-                            <i class="far fa-plus-square"></i>
-                        </button>
-                    </div>
+                    <button class="btn btn-light" @click="addUrl">
+                        <i class="far fa-plus-square"></i>
+                    </button>
                 </div>
-            </div> -->
+            </div>
             <button @click="onSubmit" class="btn btn-primary" type="submit">Add</button>
         </form>
     </div>
@@ -74,7 +79,9 @@ export default {
                 title: '',
                 description: '',
                 images: []
-            }
+            },
+            number: 1,
+            errors: []
         }
     },
 
@@ -85,12 +92,32 @@ export default {
                 //console.log(this.gallery.images)
                 this.$router.push('/my-galleries')
             })
-            .catch(err => console.log(err))
+            .catch(err => console.log(this.errors = err.response.data.errors))
         },
 
-        addUrl(url){
-            return this.gallery.images.push(url)
+        addUrl(){
+            return this.number++
+           
+        },
+
+        deleteUrl(image){
+            if (this.number > 1){
+                console.log(this.gallery.images)
+                let index = this.gallery.images.indexOf(image)
+                this.gallery.images.splice(image, 1)
+                this.number--
+                
+                console.log(this.gallery.images)
+                
+            }
+        },
+
+        moveUp(){
+            
+
         }
+
+      
     }
     
 
@@ -98,7 +125,7 @@ export default {
 </script>
 
 <style>
-.fa-plus-square {
+.fa-plus-square, .fa-trash-alt, .fa-arrow-up, .fa-arrow-down {
     font-size: 1.7rem;
     color: gray;
    
