@@ -37,7 +37,7 @@ export default {
     .then(response => {
       next(vm => {
         vm.user = response.data
-        console.log(vm.user)
+        console.log(vm.user.galleries)
       })
     })
     .catch(err => console.log(err))

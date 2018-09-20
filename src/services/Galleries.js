@@ -21,6 +21,10 @@ export default class Galleries {
     getLoggedUser(){
         return axios.get('my-galleries');
     }
+
+    add(gallery){
+        return axios.post('galleries', gallery)
+    }
 }
 
 export const galleries = new Galleries()

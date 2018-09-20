@@ -1,7 +1,7 @@
 <template>
     <div>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent"> -->
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
                         <router-link class="nav-link" to="/">
@@ -19,7 +19,9 @@
                         </router-link>                        
                     </li>
                     <li>
-                        <a class="nav-link" href="#" v-if="isAuthenticated">Create New Gallery</a>                        
+                        <router-link class="nav-link" to="/create" v-if="isAuthenticated">
+                            Create New Gallery
+                        </router-link>                         
                     </li>
                     <li class="nav-item">
                         <router-link class="nav-link" to="/register" v-if="!isAuthenticated">
@@ -34,7 +36,7 @@
                     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>
-            </div>
+            <!-- </div> -->
         </nav>
     </div>
 </template>
