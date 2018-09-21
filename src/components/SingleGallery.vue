@@ -14,7 +14,7 @@
         </div>
 
         <b-carousel id="carousel1"
-            style="text-shadow: 1px 1px 2px #333; height: 700px; margin: 0 auto; margin-top: 2rem; margin-bottom: 3rem;"
+            style="text-shadow: 1px 1px 2px #333; margin: 0 auto; margin-top: 2rem; margin-bottom: 3rem;"
             controls
             indicators
             background="#ababab"
@@ -24,7 +24,7 @@
             @sliding-end="onSlideEnd"
             v-if="gallery.images">
             <b-carousel-slide id="image"
-                style="height: 700px;"
+                style=""
                 v-for="image in gallery.images" :key="image.id"
                 :img-src="image.image_url"
             ><button id="link-view" class="btn btn-outline-light" @click="openInNewTab(image.image_url)">View</button> </b-carousel-slide>
@@ -96,6 +96,7 @@ export default {
             this.newComment.gallery_id = this.gallery.id
             galleries.addComment(this.newComment)
             .then(response => {
+                this.newComment = response.data
                 this.gallery.comments.push(this.newComment)
                 this.newComment = {}
                 console.log(this.gallery.comments)

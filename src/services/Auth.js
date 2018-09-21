@@ -17,6 +17,7 @@ export default class Auth {
 
     logout(){
         localStorage.removeItem('token')
+        localStorage.removeItem('user_id')
     }
 
     login(email, password){

@@ -1,10 +1,12 @@
 import Vue from "vue";
 import BootstrapVue from 'bootstrap-vue'
+import VeeValidate from 'vee-validate';
 import App from "./App.vue";
 import router from "./router";
 import { authService } from './services/Auth';
 
 Vue.use(BootstrapVue);
+Vue.use(VeeValidate);
 Vue.config.productionTip = false;
 
 router.beforeEach((to, from, next) => {

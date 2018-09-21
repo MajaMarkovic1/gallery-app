@@ -10,7 +10,9 @@
                             name="email"
                             type="email"
                             class="form-control here"
-                            v-model="email">
+                            v-model="email"
+                            v-validate="'required|email'">
+                        <div v-show="errors.has('email')" class="alert alert-warning">{{ errors.first("email")}}</div>    
                     </div>
                 </div>
             </div>
@@ -23,10 +25,9 @@
                             name="password"
                             type="password"
                             class="form-control here"
-                            v-model="password">
-                    </div>
-                    <div class="input-group">
-                        <span class="alert alert-warning" v-if="error">{{ error }}</span>                        
+                            v-model="password"
+                            v-validate="'required|password'">
+                        <div v-show="errors.has('password')" class="alert alert-warning">{{ errors.first("password")}}</div>                                
                     </div>
                 </div>
             </div>
@@ -43,18 +44,25 @@ export default {
         return {
             email: '',
             password: '',
-            error: ''
         }
     },
 
     methods: {
         onSubmit(){
-             authService.login(this.email, this.password)
-                .then((response) => {
-                    this.$emit('userAuthenticated', true)
-                    this.$router.push('/all-galleries')
-                })
-                .catch(err => console.log(this.error = err.response.data.error))
+            
+            {this.$validator.validateAll()
+                .then((value) => {
+                    if (value){
+                                    authService.login(this.email, this.password)
+                        .then((response) => {
+                            this.$emit('userAuthenticated', true)
+                            this.$router.push('/all-galleries')
+                        })
+                        .catch(err => console.log(err))
+                    }
+        
+                })}         
+        
         }
     }
     
