@@ -11,6 +11,10 @@ export default class Auth {
         return !!localStorage.getItem('token')
     }
 
+    getUserId(){
+        return localStorage.getItem('user_id')
+    }
+
     logout(){
         localStorage.removeItem('token')
     }
@@ -19,6 +23,7 @@ export default class Auth {
         return axios.post('auth/login', {email, password})
             .then((response) => {
                 localStorage.setItem('token', response.data.access_token)
+                localStorage.setItem('user_id', response.data.user_id)                
                 this.setAuthorizationHeader()
             })
           

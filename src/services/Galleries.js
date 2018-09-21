@@ -25,6 +25,10 @@ export default class Galleries {
     add(gallery){
         return axios.post('galleries', gallery)
     }
+
+    addComment(comment){
+        return axios.post('comments', comment)
+    }
 }
 
 export const galleries = new Galleries()

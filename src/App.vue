@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <NavBar :isAuthenticated="isAuthenticated" @userAuthenticated="toggleAuthenticated" />
-    <router-view @userAuthenticated="toggleAuthenticated" />
+    <router-view :isAuthenticated="isAuthenticated" @userAuthenticated="toggleAuthenticated" />
   </div>
 </template>
 
