@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="wrapper" v-if="galleries"> 
-            <div class="card" style="width: 19rem;" 
+            <div class="card" style="width: 19rem; height: 20rem;" 
                 v-for="gallery in galleries" :key="gallery.id" 
                 v-if="gallery.images">
                 <img class="card-img-top" :src="gallery.images[0].image_url" alt="Card image cap">
@@ -47,7 +47,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .container {
     margin-top: 1rem;
 }
@@ -69,6 +69,9 @@ export default {
 
 h4{
     color: black;
+}
+img {
+    height: 60%;
 }
 
 

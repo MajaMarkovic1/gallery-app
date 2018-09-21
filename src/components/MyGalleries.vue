@@ -19,7 +19,7 @@
                 </div>
             </div>
         </div> 
-        <div id="no-galleries" v-else><strong>You have no galleries yet! Add one.</strong></div>
+      <div id="no-galleries" v-else><strong>You have no galleries yet! Add one.</strong></div>
   </div>
 </template>
 
@@ -37,7 +37,7 @@ export default {
     .then(response => {
       next(vm => {
         vm.user = response.data
-        console.log(vm.user)
+        console.log(vm.user.galleries)
       })
     })
     .catch(err => console.log(err))
