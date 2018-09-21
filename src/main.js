@@ -1,8 +1,10 @@
 import Vue from "vue";
+import BootstrapVue from 'bootstrap-vue'
 import App from "./App.vue";
 import router from "./router";
 import { authService } from './services/Auth';
 
+Vue.use(BootstrapVue);
 Vue.config.productionTip = false;
 
 router.beforeEach((to, from, next) => {

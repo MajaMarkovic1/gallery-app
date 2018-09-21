@@ -9,9 +9,27 @@
         </div>
         <div><em>Created at:</em> {{ gallery.created_at }}</div>
         <div style="margin-top: 1rem;">{{ gallery.description }}</div>
-        <div v-for="image in gallery.images" :key="image.id">
+        <!-- <div v-for="image in gallery.images" :key="image.id">
             <img :src="image.image_url" alt="">
-        </div>
+        </div> -->
+        <b-carousel id="carousel1"
+            style="text-shadow: 1px 1px 2px #333; height: 700px; margin: 0 auto; margin-top: 2rem;"
+            controls
+            indicators
+            background="#ababab"
+            :interval="3000"
+            v-model="slide"
+            @sliding-start="onSlideStart"
+            @sliding-end="onSlideEnd"
+            v-if="gallery.images">
+        
+            <b-carousel-slide id="image"
+                style="height: 700px;"
+                v-for="image in gallery.images" :key="image.id"
+                :img-src="image.image_url"
+            ><button id="link-view" class="btn btn-outline-light" @click="openInNewTab(image.image_url)">View</button> </b-carousel-slide>
+
+    </b-carousel>
     </div>
 </template>
 
@@ -21,7 +39,9 @@ import { galleries } from '../services/Galleries'
 export default {
     data(){
         return {
-            gallery: {}
+            gallery: {},
+            slide: 0,
+            sliding: null
         }
     },
 
@@ -34,6 +54,19 @@ export default {
             })
         })
         .catch(err => console.log(err))
+    },
+
+    methods: {
+
+        onSlideStart (slide) {
+            this.sliding = true
+        },
+        onSlideEnd (slide) {
+            this.sliding = false
+        },
+        openInNewTab(link){
+            window.open(link, '_blank')
+        }
     }
     
 }
@@ -46,6 +79,11 @@ div {
 
 #user {
     color: grey;
+}
+
+#link-view {
+    margin-bottom: 35rem;
+    margin-left: 23rem;
 }
 
 </style>
