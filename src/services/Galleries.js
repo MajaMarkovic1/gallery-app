@@ -37,6 +37,18 @@ export default class Galleries {
     deleteGallery(id){
         return axios.delete(`galleries/${id}`, id)
     }
+
+    getGallery(page){
+        return axios.get(`galleries?page=${page}`)
+    }
+
+    getMyGalleries(page){
+        return axios.get(`my-galleries?page=${page}`)
+    }
+
+    getAuthorsGalleries(page, id){
+        return axios.get(`authors/${id}?page=${page}`)
+    }
 }
 
 export const galleries = new Galleries()

@@ -19,7 +19,10 @@
                 </div>
             </div>
         </div> 
-        <div id="no-galleries" v-else><strong>There are no galleries yet! Be the first to add.</strong></div>
+        <button class="btn btn-primary"
+            @click="loadMore" 
+            v-show="pagination.total > galleries.length">Load more
+        </button>
     </div>
 </template>
 
@@ -29,7 +32,9 @@ export default {
     data(){
         return {
             galleries: [],
-
+            pagination: {},
+            galleriesPaginate: []
+            
         }
     },
 
@@ -37,11 +42,27 @@ export default {
         galleries.getAll()
         .then(response => {
             next(vm => {
-                vm.galleries = response.data
-                console.log(response.data)
+                vm.galleries = response.data.data
+                vm.pagination = response.data
+                console.log(response.data.data)
             })
         })
         .catch(err => console.log(err))
+    },
+
+    methods: {
+         loadMore(){
+            
+            this.pagination.current_page++
+            
+            galleries.getGallery(this.pagination.current_page)
+            .then(response => {
+                this.galleriesPaginate = response.data.data
+                this.galleries = this.galleries.concat(this.galleriesPaginate)
+                console.log(this.galleries.length)
+                console.log(this.pagination.total)
+            })
+        }, 
     }
     
 }
