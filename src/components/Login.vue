@@ -12,8 +12,8 @@
                             class="form-control here"
                             v-model="email"
                             v-validate="'required|email'">
-                        <div v-show="errors.has('email')" class="alert alert-warning">{{ errors.first("email")}}</div>    
                     </div>
+                    <div v-show="errors.has('email')" class="alert alert-warning">{{ errors.first("email")}}</div>    
                 </div>
             </div>
             <div class="form-group row">
@@ -26,9 +26,12 @@
                             type="password"
                             class="form-control here"
                             v-model="password"
-                            v-validate="'required|password'">
-                        <div v-show="errors.has('password')" class="alert alert-warning">{{ errors.first("password")}}</div>                                
+                            v-validate="'required'">
                     </div>
+                    <div v-show="errors.has('password')" class="alert alert-warning">{{ errors.first("password")}}</div>                                
+                   <div class="input-group">
+                        <span class="alert alert-warning" v-if="error">{{ error }}</span>                        
+                    </div> 
                 </div>
             </div>
             <button name="submit" class="btn btn-primary" type="submit">Login</button>
@@ -44,6 +47,7 @@ export default {
         return {
             email: '',
             password: '',
+            error: '',
         }
     },
 
@@ -53,17 +57,18 @@ export default {
             {this.$validator.validateAll()
                 .then((value) => {
                     if (value){
-                                    authService.login(this.email, this.password)
+                    authService.login(this.email, this.password)
                         .then((response) => {
                             this.$emit('userAuthenticated', true)
                             this.$router.push('/all-galleries')
                         })
-                        .catch(err => console.log(err))
-                    }
-        
-                })}         
-        
+                          .catch((err) => {
+                                this.error = err.response.data.error
+                            })
+                    }})
+            }  
         }
+        
     }
     
 }

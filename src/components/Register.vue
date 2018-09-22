@@ -10,10 +10,12 @@
                     name="first_name"
                     type="text"
                     class="form-control here"
-                    v-model="user.first_name">
+                    v-model="user.first_name"
+                    v-validate="'required'">
                 </div> 
+                <div v-show="errors.has('first_name')" class="alert alert-warning">{{ errors.first("first_name")}}</div>    
                 <div class="input-group">
-                    <span class="alert alert-warning" v-if="errors.first_name">{{ errors.first_name[0] }}</span>                        
+                    <span class="alert alert-warning" v-if="e.first_name">{{ e.first_name[0] }}</span>                        
                 </div>                    
             </div>
         </div>
@@ -26,10 +28,12 @@
                     name="last_name"
                     type="text"
                     class="form-control here"
-                    v-model="user.last_name">
+                    v-model="user.last_name"
+                    v-validate="'required'">
                 </div>  
+                <div v-show="errors.has('last_name')" class="alert alert-warning">{{ errors.first("last_name")}}</div>                    
                 <div class="input-group">
-                    <span class="alert alert-warning" v-if="errors.last_name">{{ errors.last_name[0] }}</span>                        
+                    <span class="alert alert-warning" v-if="e.last_name">{{ e.last_name[0] }}</span>                        
                 </div>                   
             </div>
         </div>
@@ -42,10 +46,12 @@
                     name="email"
                     type="email"
                     class="form-control here"
-                    v-model="user.email">
+                    v-model="user.email"
+                    v-validate="'required|email'">
                 </div>
+                <div v-show="errors.has('email')" class="alert alert-warning">{{ errors.first("email")}}</div>                    
                 <div class="input-group">
-                    <span class="alert alert-warning" v-if="errors.email">{{ errors.email[0] }}</span>                        
+                    <span class="alert alert-warning" v-if="e.email">{{ e.email[0] }}</span>                        
                 </div>
             </div>
         </div>
@@ -58,10 +64,12 @@
                     name="password"
                     type="password"
                     class="form-control here"
-                    v-model="user.password">
+                    v-model="user.password"
+                    v-validate="'required'">
                 </div> 
+                <div v-show="errors.has('password')" class="alert alert-warning">{{ errors.first("password")}}</div>                    
                 <div class="input-group">
-                    <span class="alert alert-warning" v-if="errors.password">{{ errors.password[0] }}</span>                        
+                    <span class="alert alert-warning" v-if="e.password">{{ e.password[0] }}</span>                        
                 </div>                
             </div>
         </div>
@@ -74,8 +82,10 @@
                     name="password_confirmation"
                     type="password"
                     class="form-control here"
-                    v-model="user.password_confirmation">
-                </div>                     
+                    v-model="user.password_confirmation"
+                    v-validate="'required'">
+                </div>  
+                <div v-show="errors.has('password_confirmation')" class="alert alert-warning">{{ errors.first("password_confirmation")}}</div>                                       
             </div>
         </div>
          <div class="form-group row">
@@ -89,12 +99,15 @@
                   value="true"
                   name="accept_terms_and_conditions"
                   id="accept_terms_and_conditions"
-                  v-model="user.accept_terms_and_conditions">
+                  v-model="user.accept_terms_and_conditions"
+                  v-validate="'required'">
                   Accept terms and conditions
                 </label>
+                <div v-show="errors.has('accept_terms_and_conditions')" class="alert alert-warning">{{ errors.first("accept_terms_and_conditions")}}</div>                                                     
+                
               </div>
               <div class="input-group">
-                    <span class="alert alert-warning" v-if="errors.accept_terms_and_conditions">{{ errors.accept_terms_and_conditions[0] }}</span>                        
+                    <span class="alert alert-warning" v-if="e.accept_terms_and_conditions">{{ e.accept_terms_and_conditions[0] }}</span>                        
                 </div>
             </div> 
         </div>
@@ -109,21 +122,27 @@ export default {
   data(){
     return {
       user: {},
-      errors: []
+      e: []
     }
   },
 
   methods: {
     onSubmit(){
-      authService.register(this.user)
-        .then((response) => {
-          authService.login(this.user.email, this.user.password)
+        {this.$validator.validateAll()
+        .then((value) => {
+            if (value){
+                authService.register(this.user)
                 .then((response) => {
-                    this.$emit('userAuthenticated', true)
-                    this.$router.push('/all-galleries')
-                })
-          })
-        .catch(err => console.log( this.errors = err.response.data.errors ) )
+                    authService.login(this.user.email, this.user.password)
+                            .then((response) => {
+                                this.$emit('userAuthenticated', true)
+                                this.$router.push('/all-galleries')
+                            })
+                    })
+                .catch(err => { this.e = err.response.data.errors } )
+            }
+        })}
+     
     }
   }
   

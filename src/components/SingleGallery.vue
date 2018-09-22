@@ -4,6 +4,11 @@
         <div class="gallery-data">
             <h1>{{ gallery.title }}</h1>
             <div v-if="gallery.user" style="margin-top: 1rem;">
+                <button 
+                    v-if="isAuthenticated && gallery.user.id == user_id"
+                    @click="deleteGallery(gallery)" 
+                    name="submit" class="btn btn-primary" type="submit">Delete
+                </button> 
                 <em>Author:</em> 
                 <router-link :to="{ name: 'single-author', params: {id: gallery.user.id}}" id="user">
                     {{ gallery.user.first_name }} {{ gallery.user.last_name }}                
@@ -24,7 +29,7 @@
             @sliding-end="onSlideEnd"
             v-if="gallery.images">
             <b-carousel-slide id="image"
-                style=""
+                style="height: 500px;"
                 v-for="image in gallery.images" :key="image.id"
                 :img-src="image.image_url"
             ><button id="link-view" class="btn btn-outline-light" @click="openInNewTab(image.image_url)">View</button> </b-carousel-slide>
@@ -37,14 +42,22 @@
                 {{ comment.user.first_name }} {{ comment.user.last_name }}
             </strong></li>
             <li class="list-group-item" style="font-size: 0.8rem;"><em>{{ comment.created_at }}</em></li>
-            <li class="list-group-item">{{ comment.text }}</li>           
+            <li class="list-group-item">{{ comment.text }}</li> 
+            <div v-if="comment.user">
+                <button 
+                    v-if="isAuthenticated && comment.user.id == user_id"
+                    @click="deleteComment(comment)" 
+                    name="submit" class="btn btn-primary" type="submit">Delete
+                </button> 
+            </div>
+                                             
         </ul>
         <form v-if="isAuthenticated" @submit.prevent="onSubmit">
             <div>
                 <textarea name="text" cols="50" rows="2" v-model="newComment.text"></textarea> 
             </div>
              <div class="input-group">
-                <span class="alert alert-warning" v-if="errors.text">{{ errors.text[0] }}</span>                        
+                <span class="alert alert-warning" v-if="e.text">{{ e.text[0] }}</span>                        
             </div>
             <button name="submit" class="btn btn-primary" type="submit">Add comment</button>
         </form>
@@ -53,6 +66,8 @@
 
 <script>
 import { galleries } from '../services/Galleries'
+import { authService } from '../services/Auth'
+
 
 export default {
     data(){
@@ -61,12 +76,10 @@ export default {
             slide: 0,
             sliding: null,
             newComment: {},
-            errors: []
+            e: [],
+            user_id: authService.getUserId(),
+            isAuthenticated: authService.isAuthenticated()
         }
-    },
-
-    props: {
-        isAuthenticated: Boolean,
     },
 
     beforeRouteEnter(to, from, next){
@@ -98,11 +111,29 @@ export default {
             .then(response => {
                 this.newComment = response.data
                 this.gallery.comments.push(this.newComment)
+                console.log(this.newComment.user)
                 this.newComment = {}
-                console.log(this.gallery.comments)
+                
             })
-            .catch(err => console.log(this.errors = err.response.data.errors))
+            .catch(err => this.e = err.response.data.errors)
         },
+
+        deleteComment(comment){
+            galleries.deleteComment(comment.id)
+            .then(response => {
+                let index = this.gallery.comments.indexOf(comment)
+                this.gallery.comments.splice(index, 1)
+            })
+            .catch(err => this.e = err.response.data)
+        },
+
+        deleteGallery(gallery){
+            galleries.deleteGallery(gallery.id)
+            .then(response => {
+                this.$router.push('/my-galleries')
+            })
+            .catch(err => this.e = err.response.data)
+        }
 
     }
     
@@ -119,8 +150,8 @@ export default {
 }
 
 #link-view {
-    margin-bottom: 35rem;
-    margin-left: 22rem; 
+    /* margin-bottom: 35rem;
+    margin-left: 22rem;  */
 }
 
 form{

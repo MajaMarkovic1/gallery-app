@@ -10,10 +10,12 @@
                             name="title"
                             type="text"
                             class="form-control here"
-                            v-model="gallery.title">
+                            v-model="gallery.title"
+                            v-validate="'required'">
                     </div>
+                    <div v-show="errors.has('title')" class="alert alert-warning">{{ errors.first("title")}}</div>    
                     <div class="input-group">
-                        <span class="alert alert-warning" v-if="errors.title">{{ errors.title[0] }}</span>                        
+                        <span class="alert alert-warning" v-if="e.title">{{ e.title[0] }}</span>                        
                     </div> 
                 </div>
             </div>
@@ -28,9 +30,6 @@
                             class="form-control here"
                             v-model="gallery.description"></textarea>
                     </div>
-                    <div class="input-group">
-                        <span class="alert alert-warning" v-if="errors.description">{{ errors.description[0] }}</span>                        
-                    </div> 
                 </div>
             </div>
             <div class="form-group row" v-for="(num, index) in number" :key="index">
@@ -42,7 +41,8 @@
                             name="image_url"
                             type="text"
                             class="form-control here"
-                            v-model="gallery.images[index]">
+                            v-model="gallery.images[index]"
+                            v-validate="'required'">
                         <button class="btn btn-light" 
                             @click="deleteUrl(gallery.images[index])">
                             <i class="far fa-trash-alt"></i>
@@ -58,8 +58,9 @@
                             <i class="fas fa-arrow-down"></i>
                         </button>
                     </div>
+                    <div v-show="errors.has('image_url')" class="alert alert-warning">{{ errors.first("image_url")}}</div>    
                     <div class="input-group">
-                        <span class="alert alert-warning" v-if="errors.images">{{ errors.images[0] }}</span>                        
+                        <span class="alert alert-warning" v-if="e.images">{{ e.images[0] }}</span>                        
                     </div> 
                 </div>
             </div>
@@ -89,18 +90,24 @@ export default {
                 images: []
             },
             number: 1,
-            errors: []
+            e: []
         }
     },
 
     methods: {
         onSubmit(){
-            galleries.add(this.gallery)
-            .then(response => {
-                //console.log(this.gallery.images)
-                this.$router.push('/my-galleries')
-            })
-            .catch(err => console.log(this.errors = err.response.data.errors))
+            {this.$validator.validateAll()
+                .then((value) => {
+                    if (value){
+                        galleries.add(this.gallery)
+                        .then(response => {
+                            //console.log(this.gallery.images)
+                            this.$router.push('/my-galleries')
+                        })
+                        .catch(err => { this.e = err.response.data.errors })
+                    }
+                })
+            }
         },
 
         cancel(){

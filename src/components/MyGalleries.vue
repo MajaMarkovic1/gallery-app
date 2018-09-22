@@ -2,7 +2,7 @@
   <div class="container">
      <div class="wrapper" v-if="user.galleries"> 
             <div class="card" style="width: 19rem;" 
-                v-for="gallery in user.galleries.slice().reverse()" :key="gallery.id" 
+                v-for="gallery in user.galleries" :key="gallery.id" 
                 v-if="gallery.images">
                 <img class="card-img-top" :src="gallery.images[0].image_url" alt="Card image cap">
                 <div class="card-body bg-light">

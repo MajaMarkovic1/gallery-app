@@ -29,6 +29,14 @@ export default class Galleries {
     addComment(comment){
         return axios.post('comments', comment)
     }
+
+    deleteComment(id){
+        return axios.delete(`comments/${id}`, id)
+    }
+
+    deleteGallery(id){
+        return axios.delete(`galleries/${id}`, id)
+    }
 }
 
 export const galleries = new Galleries()
