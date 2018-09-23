@@ -58,6 +58,9 @@
                             <i class="fas fa-arrow-down"></i>
                         </button>
                     </div>
+                    <div class="input-group">
+                        <span class="alert alert-warning" v-if="e[`images.${index}`]">Wrong format of image</span> 
+                    </div>
                     <div v-show="errors.has('image_url')" class="alert alert-warning">{{ errors.first("image_url")}}</div>    
                     <div class="input-group">
                         <span class="alert alert-warning" v-if="e.images">{{ e.images[0] }}</span>                        
@@ -98,7 +101,12 @@ export default {
         if (this.$route.params.id){
             galleries.get(this.$route.params.id)
             .then(response => {
-                this.gallery = response.data
+                this.gallery.title = response.data.title
+                this.gallery.description = response.data.description
+                this.gallery.id = response.data.id
+                response.data.images.forEach(image => {
+                    this.gallery.images.push(image.image_url)
+                })
             })
         }    
     },
@@ -151,6 +159,7 @@ export default {
             if (this.number > 1){
                 let index = this.gallery.images.indexOf(image)
                 this.gallery.images.splice(index, 1)
+                this.gallery.images.splice(image, 1)
                 this.number--
             }
         },

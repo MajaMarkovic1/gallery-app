@@ -1,5 +1,6 @@
 <template>
     <div class="container">
+        <h1>Login</h1>
         <form @submit.prevent="onSubmit">
             <div class="form-group row">
                 <label for="email" class="col-4 col-form-label">Email</label>
@@ -77,8 +78,12 @@ export default {
 .container {
     margin: 0 auto;
     width: 50%;
-    margin-top: 2rem;
-    
+    margin-top: 2rem; 
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 2rem;
 }
 
 </style>

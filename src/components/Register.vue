@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <h1>Register</h1>
     <form @submit.prevent="onSubmit">
         <div class="form-group row">
             <label for="first_name" class="col-4 col-form-label">First name</label>
@@ -157,6 +158,11 @@ export default {
     margin: 0 auto;
     width: 50%;
     margin-top: 2rem;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 2rem;
 }
 
 </style>
