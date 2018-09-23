@@ -1,6 +1,5 @@
 <template>
     <div class="container">
-
         <div class="gallery-data">
             <h1>{{ gallery.title }}</h1>
             <div v-if="gallery.user">
@@ -42,12 +41,10 @@
                 style="height: 500px;"
                 v-for="image in gallery.images.slice().reverse()" :key="image.id"
                 :img-src="image.image_url">
-                
                 <div id="link-view">
                     <button class="btn btn-dark" @click="openInNewTab(image.image_url)">View</button>
                 </div>
             </b-carousel-slide>
-            
         </b-carousel>
         
         <ul class="list-group list-group-flush" v-for="comment in gallery.comments" :key="comment.id">
@@ -83,8 +80,8 @@
 import { galleries } from '../services/Galleries'
 import { authService } from '../services/Auth'
 
-
 export default {
+
     data(){
         return {
             gallery: {},
@@ -102,7 +99,6 @@ export default {
         galleries.get(this.$route.params.id)
         .then(response => {
             this.gallery = response.data
-            console.log(this.gallery)
         })
         
     },
@@ -112,23 +108,22 @@ export default {
         onSlideStart (slide) {
             this.sliding = true
         },
+
         onSlideEnd (slide) {
             this.sliding = false
         },
+
         openInNewTab(link){
             window.open(link, '_blank')
         },
 
         onSubmit(){
-            
             this.newComment.gallery_id = this.gallery.id
             galleries.addComment(this.newComment)
             .then(response => {
                 this.newComment = response.data
                 this.gallery.comments.push(this.newComment)
-                console.log(this.newComment.user)
                 this.newComment = {}
-                
             })
             .catch(err => this.e = err.response.data.errors)
         },
@@ -155,9 +150,7 @@ export default {
             })
             .catch(err => this.e = err.response.data)
         }
-
     }
-    
 }
 </script>
 
@@ -166,9 +159,11 @@ export default {
 .container {
     margin-top: 2rem;
 }
+
 h1 {
     margin-bottom: 2rem;
 }
+
 .gallery-data {
     text-align: center;
 }
@@ -219,7 +214,6 @@ form{
     margin-top: 2rem;
     padding-bottom: 3rem;
 }
-
 
 </style>
 

@@ -52,8 +52,8 @@ export default {
     },
 
     methods: {
+        
         onSubmit(){
-            
             {this.$validator.validateAll()
                 .then((value) => {
                     if (value){
@@ -67,20 +67,20 @@ export default {
                             })
                     }})
             }  
-        }
-        
-    }
-    
+        } 
+    }  
 }
 </script>
 
 <style scoped>
+
 .container {
     margin: 0 auto;
     width: 50%;
     margin-top: 2rem;
     
 }
+
 </style>
 
 

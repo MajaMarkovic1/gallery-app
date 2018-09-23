@@ -68,7 +68,7 @@
                 <label for="images" class="col-4 col-form-label">Add more images:</label>
                 <div class="col-8">
                     <button class="btn btn-light" @click="addUrl">
-                         <i class="fas fa-plus"></i>
+                        <i class="fas fa-plus"></i>
                     </button>
                 </div>
             </div>
@@ -99,16 +99,12 @@ export default {
             galleries.get(this.$route.params.id)
             .then(response => {
                 this.gallery = response.data
-                console.log(this.gallery)
-                
             })
-        }
-          
+        }    
     },
 
     methods: {
         onSubmit(){
-
             this.$route.params.id ? this.editGallery() : this.addGallery()
         },
 
@@ -118,8 +114,6 @@ export default {
                     if (value){
                         galleries.add(this.gallery)
                         .then(response => {
-                            //console.log(this.gallery.images)
-                            
                             this.$router.push('/my-galleries')
                         })
                         .catch(err => { this.e = err.response.data.errors })
@@ -134,11 +128,8 @@ export default {
             {this.$validator.validateAll()
                 .then((value) => {
                     if (value){
-                        this.gallery.images.splice(0, this.gallery.images.length)
                         galleries.edit(this.gallery)
                         .then(response => {
-                            //console.log(this.gallery.images)
-                            console.log(this.gallery)
                             this.$router.push(`/galleries/${this.$route.params.id}`)
                         })
                         .catch(err => { this.e = err.response.data.errors })
@@ -149,13 +140,11 @@ export default {
         },
         
         cancel(){
-            
             this.$route.params.id ? this.$router.push(`/galleries/${this.$route.params.id}`) : this.$router.push('/my-galleries')
         },
 
         addUrl(){
-            this.number++
-           
+            this.number++ 
         },
 
         deleteUrl(image){
@@ -163,8 +152,6 @@ export default {
                 let index = this.gallery.images.indexOf(image)
                 this.gallery.images.splice(index, 1)
                 this.number--
-                console.log(this.gallery.images)
-                
             }
         },
 
@@ -173,18 +160,12 @@ export default {
             let indexPrev = this.gallery.images.indexOf(image) - 1
         
             if (index !== 0 && this.number > 1){
-
                 this.gallery.images.splice(index, 1, this.gallery.images[indexPrev])
                 this.gallery.images.splice(indexPrev, 1, image)
-                console.log(this.gallery.images)
-
             } else if (indexPrev < 0){
-
                 let indexLast = this.gallery.images.length - 1
                 this.gallery.images.splice(indexPrev, 1, this.gallery.images[indexLast])
-                
-            } 
-            
+            }  
         },
 
         moveDown(image){
@@ -193,16 +174,11 @@ export default {
             let indexNext = this.gallery.images.indexOf(image) + 1
             
             if (index < this.gallery.images.length-1){
-
                 this.gallery.images.splice(index, 1, this.gallery.images[indexNext])                            
                 this.gallery.images.splice(indexNext, 1, image)         
-                console.log(this.gallery.images)
             }
-       
         }
-
     }
-
 }
 </script>
 
@@ -211,13 +187,12 @@ export default {
 .container {
     margin: 0 auto;
     width: 70%;
-    margin-top: 2rem;
-    
+    margin-top: 2rem;  
 }
+
 .fa-plus, .fa-trash-alt, .fa-arrow-up, .fa-arrow-down {
     font-size: 1.6rem;
-    color: gray;
-   
+    color: gray; 
 }
 
 #add-btn {

@@ -118,7 +118,9 @@
 
 <script>
 import { authService } from '../services/Auth'
+
 export default {
+
   data(){
     return {
       user: {},
@@ -127,6 +129,7 @@ export default {
   },
 
   methods: {
+
     onSubmit(){
         {this.$validator.validateAll()
         .then((value) => {
@@ -142,7 +145,6 @@ export default {
                 .catch(err => { this.e = err.response.data.errors } )
             }
         })}
-     
     }
   }
   
@@ -150,6 +152,7 @@ export default {
 </script>
 
 <style scoped>
+
 .container {
     margin: 0 auto;
     width: 50%;
