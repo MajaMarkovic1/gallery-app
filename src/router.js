@@ -23,6 +23,7 @@ export default new Router({
       { path: '/authors/:id', name: 'single-author', component: SingleAuthor },
       { path: '/my-galleries', name: 'my-galleries', component: MyGalleries },
       { path: '/create', name: 'create', component: CreateGallery },      
+      { path: '/edit-gallery/:id', name: 'edit-gallery', component: CreateGallery },      
       
   ]
 });

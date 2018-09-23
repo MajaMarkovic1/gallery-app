@@ -49,6 +49,10 @@ export default class Galleries {
     getAuthorsGalleries(page, id){
         return axios.get(`authors/${id}?page=${page}`)
     }
+
+    edit(gallery){
+        return axios.put(`galleries/${gallery.id}`, gallery)
+    }
 }
 
 export const galleries = new Galleries()

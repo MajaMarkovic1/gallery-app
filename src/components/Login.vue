@@ -34,7 +34,7 @@
                     </div> 
                 </div>
             </div>
-            <button name="submit" class="btn btn-primary" type="submit">Login</button>
+            <button name="submit" class="btn btn-secondary" type="submit">Login</button>
         </form>
     </div>
 </template>
@@ -74,14 +74,12 @@ export default {
 }
 </script>
 
-<style>
-
-label{
-    text-align: left;
-}
-
-button{
-    float: left;
+<style scoped>
+.container {
+    margin: 0 auto;
+    width: 50%;
+    margin-top: 2rem;
+    
 }
 </style>
 

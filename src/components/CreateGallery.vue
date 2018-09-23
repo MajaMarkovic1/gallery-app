@@ -72,8 +72,8 @@
                     </button>
                 </div>
             </div>
-            <button @click="onSubmit" class="btn btn-primary" type="submit">Add</button>
-            <button @click="cancel" class="btn btn-primary" type="submit">Cancel</button>            
+            <button id="add-btn" @click="onSubmit" class="btn btn-info" type="submit">Add</button>
+            <button @click="cancel" class="btn btn-secondary" type="submit">Cancel</button>          
         </form>
     </div>
 </template>
@@ -94,14 +94,32 @@ export default {
         }
     },
 
+    created(){
+        if (this.$route.params.id){
+            galleries.get(this.$route.params.id)
+            .then(response => {
+                this.gallery = response.data
+                console.log(this.gallery)
+                
+            })
+        }
+          
+    },
+
     methods: {
         onSubmit(){
+
+            this.$route.params.id ? this.editGallery() : this.addGallery()
+        },
+
+        addGallery(){
             {this.$validator.validateAll()
                 .then((value) => {
                     if (value){
                         galleries.add(this.gallery)
                         .then(response => {
                             //console.log(this.gallery.images)
+                            
                             this.$router.push('/my-galleries')
                         })
                         .catch(err => { this.e = err.response.data.errors })
@@ -110,8 +128,29 @@ export default {
             }
         },
 
+        
+        editGallery(){
+            
+            {this.$validator.validateAll()
+                .then((value) => {
+                    if (value){
+                        
+                        galleries.edit(this.gallery)
+                        .then(response => {
+                            //console.log(this.gallery.images)
+                            console.log(this.gallery)
+                            this.$router.push(`/galleries/${this.$route.params.id}`)
+                        })
+                        .catch(err => { this.e = err.response.data.errors })
+                    }
+                })
+            }
+          
+        },
+        
         cancel(){
-            this.$router.push('/my-galleries')
+            
+            this.$route.params.id ? this.$router.push(`/galleries/${this.$route.params.id}`) : this.$router.push('/my-galleries')
         },
 
         addUrl(){
@@ -167,11 +206,22 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
+.container {
+    margin: 0 auto;
+    width: 70%;
+    margin-top: 2rem;
+    
+}
 .fa-plus, .fa-trash-alt, .fa-arrow-up, .fa-arrow-down {
-    font-size: 1.7rem;
+    font-size: 1.6rem;
     color: gray;
    
+}
+
+#add-btn {
+    margin-right: 1rem;
 }
 
 </style>

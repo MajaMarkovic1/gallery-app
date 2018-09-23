@@ -1,10 +1,10 @@
 <template>
     <div class="container">
         <div class="wrapper" v-if="galleries"> 
-            <div class="card" style="width: 19rem; height: 20rem;" 
+            <div class="card" 
                 v-for="gallery in galleries" :key="gallery.id" 
                 v-if="gallery.images">
-                <img class="card-img-top" :src="gallery.images[0].image_url" alt="Card image cap">
+                <img class="card-img-top" :src="gallery.images[gallery.images.length-1].image_url" alt="Card image cap">
                 <div class="card-body bg-light">
                     <router-link :to="{ name: 'single-gallery', params: {id: gallery.id}}">
                         <h4 class="card-text" ><strong>{{ gallery.title }}</strong></h4>
@@ -19,10 +19,12 @@
                 </div>
             </div>
         </div> 
-        <button class="btn btn-primary"
-            @click="loadMore" 
-            v-show="pagination.total > galleries.length">Load more
-        </button>
+        <div id="load-more">
+            <button class="btn btn-outline-secondary"
+                @click="loadMore" 
+                v-show="pagination.total > galleries.length">Load more
+            </button>
+        </div>
     </div>
 </template>
 
@@ -70,7 +72,8 @@ export default {
 
 <style scoped>
 .container {
-    margin-top: 1rem;
+    margin-top: 2rem;
+    padding-bottom: 3rem;
 }
 .wrapper {
     display: flex;
@@ -82,10 +85,8 @@ export default {
 .card {
     margin: 0.1rem;
     text-align: center;
-}
-
-#no-galleries {
-    font-size: 2rem;
+    width: 20rem; 
+    height: 22rem;
 }
 
 h4{
@@ -93,6 +94,15 @@ h4{
 }
 img {
     height: 60%;
+}
+.card:hover {
+    transform: scale(1.1);
+}
+
+#load-more {
+    margin: 0 auto;
+    width: 10%;
+    margin-top: 2rem;
 }
 
 

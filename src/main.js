@@ -18,6 +18,8 @@ router.beforeEach((to, from, next) => {
     next({path: 'all-galleries'})
   } else if (to.name === 'create' && !authService.isAuthenticated()) {
     next({path: 'all-galleries'})
+  } else if (to.name === 'edit-gallery' && !authService.isAuthenticated()){
+    next({path: 'all-galleries'})
   } else {
     next()
   }

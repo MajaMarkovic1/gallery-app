@@ -111,7 +111,7 @@
                 </div>
             </div> 
         </div>
-        <button name="submit" class="btn btn-primary" type="submit">Register</button>
+        <button name="submit" class="btn btn-secondary" type="submit">Register</button>
       </form>
   </div>
 </template>
@@ -149,10 +149,13 @@ export default {
 }
 </script>
 
-<style>
-.form-check-label{
-    float: left;
+<style scoped>
+.container {
+    margin: 0 auto;
+    width: 50%;
+    margin-top: 2rem;
 }
+
 </style>
 
 
