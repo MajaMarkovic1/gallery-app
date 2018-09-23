@@ -34,6 +34,7 @@
             background="#ababab"
             :interval="3000"
             v-model="slide"
+            img-height="500px"
             @sliding-start="onSlideStart"
             @sliding-end="onSlideEnd"
             v-if="gallery.images">
@@ -41,10 +42,12 @@
                 style="height: 500px;"
                 v-for="image in gallery.images.slice().reverse()" :key="image.id"
                 :img-src="image.image_url">
-            <div id="link-view">
-                <button class="btn btn-dark" @click="openInNewTab(image.image_url)">View</button>
-            </div>
+                
+                <div id="link-view">
+                    <button class="btn btn-dark" @click="openInNewTab(image.image_url)">View</button>
+                </div>
             </b-carousel-slide>
+            
         </b-carousel>
         
         <ul class="list-group list-group-flush" v-for="comment in gallery.comments" :key="comment.id">
@@ -192,7 +195,6 @@ h1 {
 
 #carousel1 {
     text-shadow: 1px 1px 2px #333; 
-    height: 500px; 
     margin: 0 auto; 
     margin-top: 2rem; 
     margin-bottom: 3rem;

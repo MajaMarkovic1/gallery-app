@@ -1,5 +1,10 @@
 <template>
     <div class="container">
+        <form @submit.prevent="onSubmit" class="form-inline md-form mr-auto mb-5">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"
+                v-model="search_term">
+            <button class="btn btn-outline-secondary aqua-gradient btn-rounded btn-sm my-0" type="submit">Search</button>
+        </form>
         <div class="wrapper" v-if="galleries"> 
             <div class="card" 
                 v-for="gallery in galleries" :key="gallery.id" 
@@ -22,7 +27,8 @@
         <div id="load-more">
             <button class="btn btn-outline-secondary"
                 @click="loadMore" 
-                v-show="pagination.total > galleries.length">Load more
+                v-show="pagination.total > galleries.length">
+                Load more
             </button>
         </div>
     </div>
@@ -35,7 +41,8 @@ export default {
         return {
             galleries: [],
             pagination: {},
-            galleriesPaginate: []
+            galleriesPaginate: [],
+            search_term: ''
             
         }
     },
@@ -53,7 +60,18 @@ export default {
     },
 
     methods: {
-         loadMore(){
+
+        onSubmit(){
+            galleries.getAll(this.search_term)
+            .then(response => {
+                this.galleries = response.data.data
+                this.pagination = response.data
+                console.log(this.galleries)
+            })
+            
+        },
+
+        loadMore(){
             
             this.pagination.current_page++
             

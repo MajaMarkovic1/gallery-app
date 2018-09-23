@@ -6,20 +6,20 @@ export default class Galleries {
         axios.defaults.baseURL = 'http://localhost:8000/api/'
     }
 
-    getAll(){
-        return axios.get('galleries')
+    getAll(term = ''){
+        return axios.get(`galleries?term=${term}`)
     }
 
     get(id){
         return axios.get(`galleries/${id}`)
     }
 
-    getAuthor(id){
-        return axios.get(`authors/${id}`)
+    getAuthor(id, term = ''){
+        return axios.get(`authors/${id}?term=${term}`)
     }
 
-    getLoggedUser(){
-        return axios.get('my-galleries');
+    getLoggedUser(term = ''){
+        return axios.get(`my-galleries?term=${term}`);
     }
 
     add(gallery){
@@ -53,6 +53,7 @@ export default class Galleries {
     edit(gallery){
         return axios.put(`galleries/${gallery.id}`, gallery)
     }
+
 }
 
 export const galleries = new Galleries()

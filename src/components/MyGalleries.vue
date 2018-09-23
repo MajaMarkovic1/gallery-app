@@ -1,32 +1,37 @@
 <template>
   <div class="container">
-     <div class="wrapper" v-if="galleries"> 
-          <div class="card" 
-              v-for="gallery in galleries" :key="gallery.id" 
-              v-if="gallery.images">
-              <img class="card-img-top" :src="gallery.images[gallery.images.length-1].image_url" alt="Card image cap">
-              <div class="card-body bg-light">
-                  <router-link :to="{ name: 'single-gallery', params: {id: gallery.id}}">
-                      <h4 class="card-text" ><strong>{{ gallery.title }}</strong></h4>
-                  </router-link>
-                  <div class="card-text" style="padding: 0.6rem;">by
-                      <router-link :to="{ name: 'my-galleries', params: {id: gallery.user.id}}" 
-                          style="color: black;">
-                          <em>{{ gallery.user.first_name }} {{ gallery.user.last_name }}</em>
-                      </router-link>
-                      <div class="card-text" style="font-size: 0.7rem;">{{ gallery.created_at }}</div>
-                  </div>
-              </div>
-          </div>  
-      </div> 
-      <div id="load-more">
-        <button class="btn btn-primary"
-            @click="loadMore" 
-            v-if="galleries"
-            v-show="pagination.total > galleries.length"
-            >Load more
-        </button>
-      </div>
+        <form @submit.prevent="onSubmit" class="form-inline md-form mr-auto mb-5">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"
+                v-model="search_term">
+            <button class="btn btn-outline-secondary aqua-gradient btn-rounded btn-sm my-0" type="submit">Search</button>
+        </form>
+        <div class="wrapper" v-if="galleries"> 
+            <div class="card" 
+                v-for="gallery in galleries" :key="gallery.id" 
+                v-if="gallery.images">
+                <img class="card-img-top" :src="gallery.images[gallery.images.length-1].image_url" alt="Card image cap">
+                <div class="card-body bg-light">
+                    <router-link :to="{ name: 'single-gallery', params: {id: gallery.id}}">
+                        <h4 class="card-text" ><strong>{{ gallery.title }}</strong></h4>
+                    </router-link>
+                    <div class="card-text" style="padding: 0.6rem;">by
+                        <router-link :to="{ name: 'my-galleries', params: {id: gallery.user.id}}" 
+                            style="color: black;">
+                            <em>{{ gallery.user.first_name }} {{ gallery.user.last_name }}</em>
+                        </router-link>
+                        <div class="card-text" style="font-size: 0.7rem;">{{ gallery.created_at }}</div>
+                    </div>
+                </div>
+            </div>  
+        </div> 
+        <div id="load-more">
+            <button class="btn btn-outline-secondary"
+                @click="loadMore" 
+                v-if="galleries"
+                v-show="pagination.total > galleries.length"
+                >Load more
+            </button>
+        </div>
   </div>
 </template>
 
@@ -35,10 +40,10 @@ import { galleries } from '../services/Galleries';
 export default {
   data(){
     return {
-      //user: {},
       pagination: {},
       galleriesPaginate: [],
-      galleries: []
+      galleries: [],
+      search_term: ''
     }
   },
 
@@ -56,6 +61,17 @@ export default {
   },
 
   methods: {
+
+    onSubmit(){
+        galleries.getLoggedUser(this.search_term)
+        .then(response => {
+            this.galleries = response.data.data
+            this.pagination = response.data
+            console.log(this.galleries)
+        })
+        
+    },
+
     loadMore(){
         this.pagination.current_page++
         

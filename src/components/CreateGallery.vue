@@ -134,7 +134,7 @@ export default {
             {this.$validator.validateAll()
                 .then((value) => {
                     if (value){
-                        
+                        this.gallery.images.splice(0, this.gallery.images.length)
                         galleries.edit(this.gallery)
                         .then(response => {
                             //console.log(this.gallery.images)
